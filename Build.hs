@@ -74,7 +74,9 @@ main = do
           | rkt <- sources ] ]
 
     "_build" </> "chunk.html" %> \out -> do
-      need ["template" </> "chunk.html"]
+      need
+        [ "template" </> "index.html"
+        , "_build" </> "sources.txt" ]
       writeHtml out tChunk $ object
         [ T.pack "pages" ~>
           [ object
