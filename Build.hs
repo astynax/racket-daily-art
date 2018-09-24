@@ -16,6 +16,7 @@ import Data.Semigroup
 import qualified Data.Text as T
 import Development.Shake hiding ((~>))
 import Development.Shake.FilePath
+import Development.Shake.Forward
 import Text.Mustache
 import System.Directory
 
@@ -25,11 +26,14 @@ main = do
   tPage <- loadTemplate $ "template" </> "page.html"
   tChunk <- loadTemplate $ "template" </> "chunk.html"
 
-  sources <-
-    sort . filter ((== ".rkt") . takeExtension) <$>
-      listDirectory "source"
+  shakeForward opts $ do
+    sources <- getDirectoryFiles "source" ["*.rkt"]
+    writeFileChanged ("_build" </> "sources.txt") $
+      unlines $ sort sources
 
-  shakeArgs shakeOptions{shakeFiles = "_build"} $ do
+  sources <- lines <$> readFile ("_build" </> "sources.txt")
+
+  shakeArgs opts $ do
     let
       targets ext = ["_build" </> f -<.> ext | f <- sources]
       htmls       = targets "html"
@@ -58,7 +62,9 @@ main = do
       writeFile' out css
 
     "_build" </> "index.html" %> \out -> do
-      need ["template" </> "index.html"]
+      need
+        [ "template" </> "index.html"
+        , "_build" </> "sources.txt" ]
       writeHtml out tIndex $ object
         [ T.pack "pages" ~>
           [ object
@@ -110,6 +116,8 @@ main = do
         cmd_ "convert" input "-resize" "100x100" out
 
   where
+    opts = shakeOptions{shakeFiles = "_build"}
+
     toolVersion c out = do
       alwaysRerun
       Stdout stdout <- cmd c
