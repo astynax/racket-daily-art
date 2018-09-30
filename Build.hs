@@ -29,7 +29,7 @@ main = do
   shakeForward opts $ do
     sources <- getDirectoryFiles "source" ["*.rkt"]
     writeFileChanged ("_build" </> "sources.txt") $
-      unlines $ sort sources
+      unlines $ reverse $ sort sources
 
   sources <- lines <$> readFile ("_build" </> "sources.txt")
 
