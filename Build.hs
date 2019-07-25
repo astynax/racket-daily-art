@@ -1,6 +1,6 @@
 #!/usr/bin/env stack
 {- stack
-  --resolver lts-11.0
+  --resolver lts-13.24
   --install-ghc
   script
   --package text
