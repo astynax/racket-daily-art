@@ -18,8 +18,10 @@
            (circle (/ s 2) 'solid (if (or f1 f2) 'DarkSeaGreen 'SeaGreen))
            (square s 0 'White)))
 
-(save-image
- (overlay
-  (step item #t #f 600)
-  (square 600 'solid 'DarkGreen))
- "output.png")
+(provide main)
+(define (main . args)
+  (save-image
+   (overlay
+    (step item #t #f 600)
+    (square 600 'solid 'DarkGreen))
+   (car args)))

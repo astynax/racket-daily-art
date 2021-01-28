@@ -28,6 +28,8 @@
                (beside (rotate (if f  90   0) (ii (not f)))
                        (rotate (if f -90   0) (ii      f)))))))
 
-(save-image
- (step block #t 400)
- "output.png")
+(provide main)
+(define (main . args)
+  (save-image
+   (step block #t 400)
+   (car args)))

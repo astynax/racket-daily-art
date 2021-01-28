@@ -35,6 +35,8 @@
     (above (beside i1 i2)
            (beside i2 i1))))
 
-(save-image
- (four-flip ($ four-rotate ($ four-rotate ($ item 70))) #f)
- "output.png")
+(provide main)
+(define (main . args)
+  (save-image
+   (four-flip ($ four-rotate ($ four-rotate ($ item 70))) #f)
+   (car args)))

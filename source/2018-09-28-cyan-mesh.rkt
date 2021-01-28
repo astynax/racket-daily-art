@@ -24,8 +24,10 @@
                (beside (item 5) (item 4) (item 3))
                (beside (item 2) (item 1) (item 0))))))
 
-(save-image
- (overlay
-  (step all9 0 400)
-  (square 800 'solid 'black))
- "output.png")
+(provide main)
+(define (main . args)
+  (save-image
+   (overlay
+    (step all9 0 400)
+    (square 800 'solid 'black))
+   (car args)))

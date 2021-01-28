@@ -17,7 +17,8 @@
         (underlay (square (* 2 s) 'solid (if flag 'white 'black)) i)
         (sq2x2 flag i (step (not flag) (/ s 2))))))
 
-(save-image
-  (sq2x2 #t (step #t 160) (step #f 160))
-  "output.png")
-
+(provide main)
+(define (main . args)
+  (save-image
+   (sq2x2 #t (step #t 160) (step #f 160))
+   (car args)))

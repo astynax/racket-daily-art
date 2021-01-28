@@ -26,6 +26,8 @@
            (square (/ s 2) 200 (->color l))
            (square s 0 'White)))
 
-(save-image
- (step item 0 #t 600)
- "output.png")
+(provide main)
+(define (main . args)
+  (save-image
+   (step item 0 #t 600)
+   (car args)))

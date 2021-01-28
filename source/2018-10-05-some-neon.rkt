@@ -24,7 +24,9 @@
         [else (above (beside (item (/ s 2)) (item (/ s 2)))
                      (beside (item (/ s 2)) (item (/ s 2))))])))
 
-(random-seed 96)
-(save-image
- (item 640)
- "output.png")
+(provide main)
+(define (main . args)
+  (random-seed 96)
+  (save-image
+   (item 640)
+   (car args)))

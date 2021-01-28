@@ -21,8 +21,10 @@
                (square (* 0.7 s) 'solid 'White)
                (circle (* 0.5 s) 'solid 'Black))))
 
-(save-image
- (overlay
-  (step item #f 600)
-  (square 600 'solid 'Chocolate))
- "output.png")
+(provide main)
+(define (main . args)
+  (save-image
+   (overlay
+    (step item #f 600)
+    (square 600 'solid 'Chocolate))
+   (car args)))

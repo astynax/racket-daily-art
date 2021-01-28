@@ -23,7 +23,8 @@
         (above (beside ((i  s) a) ((i2 s) a))
                (beside ((i8 s) a) ((i4 s) a)))))))
 
-(save-image
-  (((step (step dot)) 200) 255)
-  "output.png")
-
+(provide main)
+(define (main . args)
+  (save-image
+   (((step (step dot)) 200) 255)
+   (car args)))

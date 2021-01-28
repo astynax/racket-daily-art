@@ -17,8 +17,10 @@
    (circle (/ s 3) 'solid 'black)
    (square s (max 0 (- 220 (* n 20))) 'SkyBlue)))
 
-(save-image
- (overlay
-  (step item 0 600)
-  (square 600 'solid 'black))
- "output.png")
+(provide main)
+(define (main . args)
+  (save-image
+   (overlay
+    (step item 0 600)
+    (square 600 'solid 'black))
+   (car args)))

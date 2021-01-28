@@ -30,7 +30,9 @@
       (place-image
        c0 s s
        (square s 'solid bg))))))
-            
-(save-image
- (step item #f 800)
- "output.png")
+
+(provide main)
+(define (main . args)
+  (save-image
+   (step item #f 800)
+   (car args)))

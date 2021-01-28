@@ -24,7 +24,8 @@
   (if (< s 10) (i (next-c c) (* 1.2 s))
       (sq2x2 (step (next-c c) (/ s 2)) (i c (* 0.707 s)))))
 
-(save-image
-  (step 0 800)
-  "output.png")
-
+(provide main)
+(define (main . args)
+  (save-image
+   (step 0 800)
+   (car args)))

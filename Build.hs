@@ -1,18 +1,7 @@
-#!/usr/bin/env stack
-{- stack
-  --resolver lts-13.24
-  --install-ghc
-  script
-  --package text
-  --package shake
-  --package directory
-  --package mustache
-  --ghc-options "-hide-all-packages"
--}
+module Main where
 
 import Data.Foldable
 import Data.List
-import Data.Semigroup
 import qualified Data.Text as T
 import Development.Shake hiding ((~>))
 import Development.Shake.FilePath
@@ -24,9 +13,8 @@ main :: IO ()
 main = do
   tIndex <- loadTemplate $ "template" </> "index.html"
   tPage <- loadTemplate $ "template" </> "page.html"
-  tChunk <- loadTemplate $ "template" </> "chunk.html"
 
-  shakeForward opts $ do
+  shakeForward fwdOpts $ do
     sources <- getDirectoryFiles "source" ["*.rkt"]
     writeFileChanged ("_build" </> "sources.txt") $
       unlines $ reverse $ sort sources
@@ -73,18 +61,6 @@ main = do
             , T.pack "name"      ~> rkt ]
           | rkt <- sources ] ]
 
-    "_build" </> "chunk.html" %> \out -> do
-      need
-        [ "template" </> "index.html"
-        , "_build" </> "sources.txt" ]
-      writeHtml out tChunk $ object
-        [ T.pack "pages" ~>
-          [ object
-            [ T.pack "file"      ~> (rkt -<.> "html")
-            , T.pack "thumbnail" ~> (rkt -<.> "thumbnail.png")
-            , T.pack "name"      ~> rkt ]
-          | rkt <- sources ] ]
-
     for_ sources $ \src -> do
       let racketFile = "source" </> src
 
@@ -105,10 +81,7 @@ main = do
         need
           [ "_build" </> "racket.version"
           , racketFile ]
-        withTempDir $ \dir -> do
-          liftIO $ copyFile racketFile $ dir </> "script.rkt"
-          cmd_ (Cwd dir) "racket script.rkt"
-          liftIO $ copyFile (dir </> "output.png") out
+        cmd_ "racket" "-t" racketFile "-m" "--" out
 
       "_build" </> src -<.> "thumbnail.png" %> \out -> do
         let input = "_build" </> src -<.> "png"
@@ -118,6 +91,7 @@ main = do
         cmd_ "convert" input "-resize" "100x100" out
 
   where
+    fwdOpts = (forwardOptions shakeOptions){shakeLintInside = ["_build"]}
     opts = shakeOptions{shakeFiles = "_build"}
 
     toolVersion c out = do

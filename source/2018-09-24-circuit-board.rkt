@@ -20,10 +20,11 @@
           (circle (/ s 4) 'solid 'gray)))
    (line s s (make-pen 'gray (/ s 10) 'solid 'round 'round))))
 
-(save-image
-  (let ([i (sq ($ sq ($ sq ($ sq piece))) #f 40)])
-    (overlay i
-             (rectangle (image-width i)
-                        (image-height i) 'solid 'darkgreen)))
-  "output.png")
-
+(provide main)
+(define (main . args)
+  (save-image
+   (let [(i (sq ($ sq ($ sq ($ sq piece))) #f 40))]
+     (overlay
+      i
+      (rectangle (image-width i) (image-height i) 'solid 'darkgreen)))
+   (car args)))

@@ -26,6 +26,8 @@
             (above by bb by bb))
     (beside by bb by bb by))))
 
-(save-image
- (step 'black 'red 'yellow 'orange 600)
- "output.png")
+(provide main)
+(define (main . args)
+  (save-image
+   (step 'black 'red 'yellow 'orange 600)
+   (car args)))

@@ -15,12 +15,14 @@
          'left 'center
          (rotate 90 ii)
          (overlay/align
-          'right 'center    
+          'right 'center
           (rotate -90 ii)
           (i s))))))
 
-(save-image
- (let* ([i (step item 400)]
+(provide main)
+(define (main . args)
+  (save-image
+   (let* ([i (step item 400)]
         [r (rotate 90 i)])
    (overlay i (beside r r)))
- "output.png")
+   (car args)))

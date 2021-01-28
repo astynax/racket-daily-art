@@ -1,0 +1,19 @@
+cabal-version:       2.4
+
+name:                racket-daily-art
+version:             0.1.0.0
+license:             BSD-3-Clause
+license-file:        LICENSE
+author:              Aleksei Pirogov
+maintainer:          astynax@users.noreply.github.com
+category:            Graphics
+extra-source-files:  README.md
+
+executable build
+  main-is:             Build.hs
+  build-depends:       base ^>=4.13.0.0
+                     , shake
+                     , directory
+                     , text
+                     , mustache
+  default-language:    Haskell2010
