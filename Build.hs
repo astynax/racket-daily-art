@@ -7,52 +7,65 @@ import Development.Shake hiding ((~>))
 import Development.Shake.FilePath
 import Development.Shake.Forward
 import Text.Mustache
-import System.Directory
+
 
 main :: IO ()
 main = do
+  let
+    target      = "docs"
+
+    sourcesLst  = target </> "sources.lst"
+    pygmentsCss = target </> "pygments.css"
+    indexHtml   = target </> "index.html"
+
+    pygmentsVersion   = target </> "pygments.version"
+    racketVersion     = target </> "racket.version"
+    imagemagicVersion = target </> "imagemagic.version"
+
+    fwdOpts = (forwardOptions shakeOptions){shakeLintInside = [target]}
+    opts    = shakeOptions{shakeFiles = target}
+
   tIndex <- loadTemplate $ "template" </> "index.html"
-  tPage <- loadTemplate $ "template" </> "page.html"
+  tPage  <- loadTemplate $ "template" </> "page.html"
 
   shakeForward fwdOpts $ do
     sources <- getDirectoryFiles "source" ["*.rkt"]
-    writeFileChanged ("_build" </> "sources.txt") $
+    writeFileChanged sourcesLst $
       unlines $ reverse $ sort sources
 
-  sources <- lines <$> readFile ("_build" </> "sources.txt")
+  sources <- lines <$> readFile sourcesLst
 
   shakeArgs opts $ do
     let
-      targets ext = ["_build" </> f -<.> ext | f <- sources]
+      targets ext = [target </> f -<.> ext | f <- sources]
       htmls       = targets "html"
       outputs     = targets "png"
       thumbnails  = targets "thumbnail.png"
 
     want $
-      [ "_build" </> "pygments.css"
-      , "_build" </> "index.html"
-      , "_build" </> "chunk.html" ]
+      [ pygmentsCss
+      , indexHtml ]
       <> htmls
       <> outputs
       <> thumbnails
 
-    "_build" </> "pygments.version" %> toolVersion "pygmentize -V"
-    "_build" </> "racket.version" %> toolVersion "racket --version"
-    "_build" </> "imagemagic.version" %> toolVersion "convert --version"
+    pygmentsVersion   %> toolVersion "pygmentize -V"
+    racketVersion     %> toolVersion "racket --version"
+    imagemagicVersion %> toolVersion "convert --version"
 
     phony "clean" $ do
       putNormal "Cleaning up.."
-      removeFilesAfter "_build" ["//*"]
+      removeFilesAfter target ["//*"]
 
-    "_build" </> "pygments.css" %> \out -> do
-      need ["_build" </> "pygments.version"]
+    pygmentsCss %> \out -> do
+      need [pygmentsVersion]
       Stdout css <- cmd "pygmentize" "-f" "html" "-S" "colorful"
       writeFile' out css
 
-    "_build" </> "index.html" %> \out -> do
+    indexHtml %> \out -> do
       need
         [ "template" </> "index.html"
-        , "_build" </> "sources.txt" ]
+        , sourcesLst ]
       writeHtml out tIndex $ object
         [ T.pack "pages" ~>
           [ object
@@ -64,9 +77,9 @@ main = do
     for_ sources $ \src -> do
       let racketFile = "source" </> src
 
-      "_build" </> src -<.> "html" %> \out -> do
+      target </> src -<.> "html" %> \out -> do
         need
-          [ "_build" </> "pygments.version"
+          [ pygmentsVersion
           , "template" </> "page.html"
           , racketFile ]
         Stdout contents <-
@@ -77,23 +90,20 @@ main = do
           , T.pack "code" ~> T.pack contents
           , T.pack "img"  ~> (src -<.> "png") ]
 
-      "_build" </> src -<.> "png" %> \out -> do
+      target </> src -<.> "png" %> \out -> do
         need
-          [ "_build" </> "racket.version"
+          [ racketVersion
           , racketFile ]
         cmd_ "racket" "-t" racketFile "-m" "--" out
 
-      "_build" </> src -<.> "thumbnail.png" %> \out -> do
-        let input = "_build" </> src -<.> "png"
+      target </> src -<.> "thumbnail.png" %> \out -> do
+        let input = target </> src -<.> "png"
         need
-          [ "_build" </> "imagemagic.version"
+          [ imagemagicVersion
           , input ]
         cmd_ "convert" input "-resize" "100x100" out
 
   where
-    fwdOpts = (forwardOptions shakeOptions){shakeLintInside = ["_build"]}
-    opts = shakeOptions{shakeFiles = "_build"}
-
     toolVersion c out = do
       alwaysRerun
       Stdout stdout <- cmd c

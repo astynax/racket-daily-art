@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"></meta>
+    <link rel="stylesheet" href="pygments.css" type="text/css" media="screen"/>
+    <title>Astynax's Racket Art: 2018-09-13-dots.rkt</title>
+  </head>
+  <body>
+    <h3><a href="index.html">Index</a>&nbsp;/&nbsp;2018-09-13-dots.rkt</h3>
+    <table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24</pre></div></td><td class="code"><div class="highlight"><pre><span class="kn">#lang </span><span class="nn">racket</span>
+<span class="p">(</span><span class="k">require</span> <span class="n">2htdp/image</span><span class="p">)</span>
+
+<span class="p">(</span><span class="k">define</span> <span class="p">(</span><span class="n">dot</span> <span class="n">flag</span> <span class="n">s</span><span class="p">)</span>
+  <span class="p">(</span><span class="n">underlay</span> <span class="p">(</span><span class="n">square</span> <span class="n">s</span> <span class="o">&#39;</span><span class="ss">solid</span> <span class="p">(</span><span class="k">if</span> <span class="n">flag</span> <span class="o">&#39;</span><span class="ss">white</span> <span class="o">&#39;</span><span class="ss">black</span><span class="p">))</span>
+            <span class="p">(</span><span class="n">circle</span> <span class="p">(</span><span class="nb">/</span> <span class="n">s</span> <span class="mi">2</span><span class="p">)</span> <span class="o">&#39;</span><span class="ss">solid</span> <span class="o">&#39;</span><span class="ss">gray</span><span class="p">)</span>
+            <span class="p">(</span><span class="n">circle</span> <span class="p">(</span><span class="nb">/</span> <span class="n">s</span> <span class="mi">4</span><span class="p">)</span> <span class="o">&#39;</span><span class="ss">solid</span> <span class="p">(</span><span class="k">if</span> <span class="n">flag</span> <span class="o">&#39;</span><span class="ss">black</span> <span class="o">&#39;</span><span class="ss">white</span><span class="p">))))</span>
+
+<span class="p">(</span><span class="k">define</span> <span class="p">(</span><span class="n">sq2x2</span> <span class="n">flag</span> <span class="n">i1</span> <span class="n">i2</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">if</span> <span class="n">flag</span> <span class="p">(</span><span class="n">sq2x2</span> <span class="no">#f</span> <span class="n">i2</span> <span class="n">i1</span><span class="p">)</span>
+      <span class="p">(</span><span class="n">above</span> <span class="p">(</span><span class="n">beside</span> <span class="n">i1</span> <span class="n">i2</span><span class="p">)</span>
+             <span class="p">(</span><span class="n">beside</span> <span class="n">i2</span> <span class="n">i1</span><span class="p">))))</span>
+
+<span class="p">(</span><span class="k">define</span> <span class="p">(</span><span class="n">step</span> <span class="n">flag</span> <span class="n">s</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">let</span> <span class="p">((</span><span class="n">i</span> <span class="p">(</span><span class="n">dot</span> <span class="n">flag</span> <span class="n">s</span><span class="p">)))</span>
+    <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="nb">&lt;</span> <span class="n">s</span> <span class="mi">10</span><span class="p">)</span>
+        <span class="p">(</span><span class="n">underlay</span> <span class="p">(</span><span class="n">square</span> <span class="p">(</span><span class="nb">*</span> <span class="mi">2</span> <span class="n">s</span><span class="p">)</span> <span class="o">&#39;</span><span class="ss">solid</span> <span class="p">(</span><span class="k">if</span> <span class="n">flag</span> <span class="o">&#39;</span><span class="ss">white</span> <span class="o">&#39;</span><span class="ss">black</span><span class="p">))</span> <span class="n">i</span><span class="p">)</span>
+        <span class="p">(</span><span class="n">sq2x2</span> <span class="n">flag</span> <span class="n">i</span> <span class="p">(</span><span class="n">step</span> <span class="p">(</span><span class="nb">not</span> <span class="n">flag</span><span class="p">)</span> <span class="p">(</span><span class="nb">/</span> <span class="n">s</span> <span class="mi">2</span><span class="p">))))))</span>
+
+<span class="p">(</span><span class="k">provide</span> <span class="n">main</span><span class="p">)</span>
+<span class="p">(</span><span class="k">define</span> <span class="p">(</span><span class="n">main</span> <span class="o">.</span> <span class="n">args</span><span class="p">)</span>
+  <span class="p">(</span><span class="n">save-image</span>
+   <span class="p">(</span><span class="n">sq2x2</span> <span class="no">#t</span> <span class="p">(</span><span class="n">step</span> <span class="no">#t</span> <span class="mi">160</span><span class="p">)</span> <span class="p">(</span><span class="n">step</span> <span class="no">#f</span> <span class="mi">160</span><span class="p">))</span>
+   <span class="p">(</span><span class="nb">car</span> <span class="n">args</span><span class="p">)))</span>
+</pre></div>
+</td></tr></table>
+    <img src="2018-09-13-dots.png"></img>
+  </body>
+</html>

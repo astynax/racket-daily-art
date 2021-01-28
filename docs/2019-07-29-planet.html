@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"></meta>
+    <link rel="stylesheet" href="pygments.css" type="text/css" media="screen"/>
+    <title>Astynax's Racket Art: 2019-07-29-planet.rkt</title>
+  </head>
+  <body>
+    <h3><a href="index.html">Index</a>&nbsp;/&nbsp;2019-07-29-planet.rkt</h3>
+    <table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>  1
+  2
+  3
+  4
+  5
+  6
+  7
+  8
+  9
+ 10
+ 11
+ 12
+ 13
+ 14
+ 15
+ 16
+ 17
+ 18
+ 19
+ 20
+ 21
+ 22
+ 23
+ 24
+ 25
+ 26
+ 27
+ 28
+ 29
+ 30
+ 31
+ 32
+ 33
+ 34
+ 35
+ 36
+ 37
+ 38
+ 39
+ 40
+ 41
+ 42
+ 43
+ 44
+ 45
+ 46
+ 47
+ 48
+ 49
+ 50
+ 51
+ 52
+ 53
+ 54
+ 55
+ 56
+ 57
+ 58
+ 59
+ 60
+ 61
+ 62
+ 63
+ 64
+ 65
+ 66
+ 67
+ 68
+ 69
+ 70
+ 71
+ 72
+ 73
+ 74
+ 75
+ 76
+ 77
+ 78
+ 79
+ 80
+ 81
+ 82
+ 83
+ 84
+ 85
+ 86
+ 87
+ 88
+ 89
+ 90
+ 91
+ 92
+ 93
+ 94
+ 95
+ 96
+ 97
+ 98
+ 99
+100
+101</pre></div></td><td class="code"><div class="highlight"><pre><span class="kn">#lang </span><span class="nn">racket</span>
+<span class="p">(</span><span class="k">require</span> <span class="n">2htdp/image</span><span class="p">)</span>
+<span class="p">(</span><span class="k">require</span> <span class="n">lang/posn</span><span class="p">)</span>
+
+<span class="p">(</span><span class="k">define</span> <span class="p">(</span><span class="n">tree</span> <span class="n">s</span> <span class="n">c</span><span class="p">)</span>
+  <span class="p">(</span><span class="n">scale</span>
+   <span class="p">(</span><span class="nb">/</span> <span class="n">s</span> <span class="mi">225</span><span class="p">)</span>
+   <span class="p">(</span><span class="k">let</span> <span class="p">[[</span><span class="n">trunk</span> <span class="p">(</span><span class="n">polygon</span>
+                 <span class="p">(</span><span class="nb">list</span>
+                  <span class="p">(</span><span class="n">make-posn</span> <span class="mi">70</span> <span class="mi">200</span><span class="p">)</span>
+                  <span class="p">(</span><span class="n">make-posn</span> <span class="mi">80</span> <span class="mi">130</span><span class="p">)</span> <span class="p">(</span><span class="n">make-posn</span> <span class="mi">20</span> <span class="mi">70</span><span class="p">)</span> <span class="p">(</span><span class="n">make-posn</span> <span class="mi">85</span> <span class="mi">100</span><span class="p">)</span>
+                  <span class="p">(</span><span class="n">make-posn</span> <span class="mi">110</span> <span class="mi">60</span><span class="p">)</span> <span class="p">(</span><span class="n">make-posn</span> <span class="mi">90</span> <span class="mi">0</span><span class="p">)</span>
+                  <span class="p">(</span><span class="n">make-posn</span> <span class="mi">125</span> <span class="mi">40</span><span class="p">)</span> <span class="p">(</span><span class="n">make-posn</span> <span class="mi">160</span> <span class="mi">20</span><span class="p">)</span> <span class="p">(</span><span class="n">make-posn</span> <span class="mi">130</span> <span class="mi">60</span><span class="p">)</span>
+                  <span class="p">(</span><span class="n">make-posn</span> <span class="mi">125</span> <span class="mi">80</span><span class="p">)</span> <span class="p">(</span><span class="n">make-posn</span> <span class="mi">155</span> <span class="mi">80</span><span class="p">)</span> <span class="p">(</span><span class="n">make-posn</span> <span class="mi">120</span> <span class="mi">95</span><span class="p">)</span>
+                  <span class="p">(</span><span class="n">make-posn</span> <span class="mi">115</span> <span class="mi">120</span><span class="p">)</span>
+                  <span class="p">(</span><span class="n">make-posn</span> <span class="mi">130</span> <span class="mi">200</span><span class="p">))</span>
+                 <span class="o">&#39;</span><span class="ss">solid</span>
+                 <span class="o">&#39;</span><span class="ss">brown</span><span class="p">)]</span>
+         <span class="p">[</span><span class="n">leafs1</span> <span class="p">(</span><span class="n">circle</span> <span class="mi">50</span> <span class="o">&#39;</span><span class="ss">solid</span> <span class="n">c</span><span class="p">)]</span>
+         <span class="p">[</span><span class="n">leafs2</span> <span class="p">(</span><span class="n">circle</span> <span class="mi">40</span> <span class="o">&#39;</span><span class="ss">solid</span> <span class="n">c</span><span class="p">)]</span>
+         <span class="p">[</span><span class="n">leafs3</span> <span class="p">(</span><span class="n">circle</span> <span class="mi">30</span> <span class="o">&#39;</span><span class="ss">solid</span> <span class="n">c</span><span class="p">)]</span>
+         <span class="p">[</span><span class="n">leafs4</span> <span class="p">(</span><span class="n">circle</span> <span class="mi">20</span> <span class="o">&#39;</span><span class="ss">solid</span> <span class="n">c</span><span class="p">)]]</span>
+     <span class="p">(</span><span class="n">overlay/offset</span>
+      <span class="p">(</span><span class="n">overlay/offset</span>
+       <span class="p">(</span><span class="n">overlay/offset</span>
+        <span class="p">(</span><span class="n">overlay/offset</span>
+         <span class="n">trunk</span>
+         <span class="mi">-40</span> <span class="mi">-10</span>
+         <span class="n">leafs1</span><span class="p">)</span>
+        <span class="mi">20</span> <span class="mi">-85</span>
+        <span class="n">leafs2</span><span class="p">)</span>
+       <span class="mi">70</span> <span class="mi">-60</span>
+       <span class="n">leafs3</span><span class="p">)</span>
+      <span class="mi">60</span> <span class="mi">-5</span>
+      <span class="n">leafs4</span><span class="p">))))</span>
+
+<span class="p">(</span><span class="k">define</span> <span class="p">(</span><span class="n">cloud</span> <span class="n">s</span> <span class="n">c</span><span class="p">)</span>
+  <span class="p">(</span><span class="n">scale</span>
+   <span class="p">(</span><span class="nb">/</span> <span class="n">s</span> <span class="mi">255</span><span class="p">)</span>
+   <span class="p">(</span><span class="n">overlay/offset</span>
+    <span class="p">(</span><span class="n">overlay/offset</span>
+     <span class="p">(</span><span class="n">circle</span> <span class="mi">50</span> <span class="o">&#39;</span><span class="ss">solid</span> <span class="n">c</span><span class="p">)</span>
+     <span class="mi">70</span> <span class="mi">-10</span>
+     <span class="p">(</span><span class="n">circle</span> <span class="mi">70</span> <span class="o">&#39;</span><span class="ss">solid</span> <span class="n">c</span><span class="p">))</span>
+    <span class="mi">90</span> <span class="mi">20</span>
+    <span class="p">(</span><span class="n">circle</span> <span class="mi">40</span> <span class="o">&#39;</span><span class="ss">solid</span> <span class="n">c</span><span class="p">))))</span>
+
+<span class="p">(</span><span class="k">define</span> <span class="p">(</span><span class="n">pinned</span> <span class="n">a</span> <span class="n">r</span> <span class="n">f</span> <span class="n">i</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">let</span> <span class="p">[[</span><span class="n">w</span> <span class="p">(</span><span class="n">image-width</span> <span class="n">i</span><span class="p">)]</span>
+        <span class="p">[</span><span class="n">h</span> <span class="p">(</span><span class="n">image-height</span> <span class="n">i</span><span class="p">)]]</span>
+    <span class="p">(</span><span class="n">rotate</span>
+     <span class="n">a</span>
+     <span class="p">(</span><span class="n">put-pinhole</span>
+      <span class="p">(</span><span class="nb">*</span> <span class="mf">0.5</span> <span class="n">w</span><span class="p">)</span> <span class="p">(</span><span class="nb">+</span> <span class="n">r</span> <span class="n">h</span><span class="p">)</span>
+      <span class="p">((</span><span class="k">if</span> <span class="n">f</span> <span class="n">flip-horizontal</span> <span class="nb">identity</span><span class="p">)</span>
+       <span class="n">i</span><span class="p">)))))</span>
+
+<span class="p">(</span><span class="k">define</span> <span class="p">(</span><span class="n">shade</span> <span class="n">ww</span> <span class="n">w</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">let</span> <span class="p">[[</span><span class="n">s</span> <span class="p">(</span><span class="nb">/</span> <span class="p">(</span><span class="nb">-</span> <span class="n">ww</span> <span class="n">w</span> <span class="n">w</span><span class="p">)</span> <span class="mi">2</span><span class="p">)]]</span>
+    <span class="p">(</span><span class="n">beside</span>
+     <span class="p">(</span><span class="n">rectangle</span> <span class="n">s</span> <span class="n">ww</span> <span class="mi">0</span> <span class="o">&#39;</span><span class="ss">black</span><span class="p">)</span>
+     <span class="p">(</span><span class="n">rectangle</span> <span class="n">w</span> <span class="n">ww</span> <span class="mi">32</span> <span class="o">&#39;</span><span class="ss">black</span><span class="p">)</span>
+     <span class="p">(</span><span class="n">rectangle</span> <span class="n">w</span> <span class="n">ww</span> <span class="mi">80</span> <span class="o">&#39;</span><span class="ss">black</span><span class="p">)</span>
+     <span class="p">(</span><span class="n">rectangle</span> <span class="n">s</span> <span class="n">ww</span> <span class="mi">127</span> <span class="o">&#39;</span><span class="ss">black</span><span class="p">))))</span>
+
+<span class="p">(</span><span class="k">define</span> <span class="p">(</span><span class="n">picture</span> <span class="n">s</span><span class="p">)</span>
+  <span class="p">(</span><span class="n">scale</span>
+   <span class="p">(</span><span class="nb">/</span> <span class="n">s</span> <span class="mi">140</span><span class="p">)</span>
+   <span class="p">(</span><span class="n">clear-pinhole</span>
+    <span class="p">(</span><span class="n">place-image</span>
+     <span class="p">(</span><span class="n">overlay/pinhole</span>
+      <span class="p">(</span><span class="n">rotate</span>
+       <span class="mi">45</span>
+       <span class="p">(</span><span class="n">above</span>
+        <span class="p">(</span><span class="n">star-polygon</span> <span class="mi">7</span> <span class="mi">31</span> <span class="mi">8</span> <span class="o">&#39;</span><span class="ss">solid</span> <span class="o">&#39;</span><span class="ss">yellow</span><span class="p">)</span>
+        <span class="p">(</span><span class="n">square</span> <span class="mi">160</span> <span class="mi">0</span> <span class="o">&#39;</span><span class="ss">black</span><span class="p">)</span>
+        <span class="p">(</span><span class="n">circle</span> <span class="mi">20</span> <span class="o">&#39;</span><span class="ss">solid</span> <span class="o">&#39;</span><span class="ss">ivory</span><span class="p">)))</span>
+      <span class="p">(</span><span class="n">rotate</span> <span class="mi">-45</span> <span class="p">(</span><span class="n">shade</span> <span class="mi">200</span> <span class="mi">10</span><span class="p">))</span>
+      <span class="p">(</span><span class="n">star-polygon</span> <span class="mi">3</span> <span class="mi">50</span> <span class="mi">13</span> <span class="o">&#39;</span><span class="ss">solid</span> <span class="o">&#39;</span><span class="ss">darkorange</span><span class="p">)</span>
+      <span class="p">(</span><span class="n">pinned</span> <span class="mi">35</span> <span class="mi">20</span> <span class="no">#f</span> <span class="p">(</span><span class="n">tree</span> <span class="mi">40</span> <span class="o">&#39;</span><span class="ss">orange</span><span class="p">))</span>
+      <span class="p">(</span><span class="n">pinned</span> <span class="mi">-25</span> <span class="mi">20</span> <span class="no">#t</span> <span class="p">(</span><span class="n">tree</span> <span class="mi">30</span> <span class="o">&#39;</span><span class="ss">yellow</span><span class="p">))</span>
+      <span class="p">(</span><span class="n">pinned</span> <span class="mi">-75</span> <span class="mi">20</span> <span class="no">#f</span> <span class="p">(</span><span class="n">tree</span> <span class="mi">35</span> <span class="o">&#39;</span><span class="ss">red</span><span class="p">))</span>
+      <span class="p">(</span><span class="n">pinned</span> <span class="mi">90</span> <span class="mi">20</span> <span class="no">#t</span> <span class="p">(</span><span class="n">tree</span> <span class="mi">35</span> <span class="o">&#39;</span><span class="ss">red</span><span class="p">))</span>
+      <span class="p">(</span><span class="n">pinned</span> <span class="mi">135</span> <span class="mi">20</span> <span class="no">#t</span> <span class="p">(</span><span class="n">tree</span> <span class="mi">45</span> <span class="o">&#39;</span><span class="ss">orange</span><span class="p">))</span>
+      <span class="p">(</span><span class="n">pinned</span> <span class="mi">190</span> <span class="mi">20</span> <span class="no">#f</span> <span class="p">(</span><span class="n">tree</span> <span class="mi">40</span> <span class="o">&#39;</span><span class="ss">yellow</span><span class="p">))</span>
+      <span class="p">(</span><span class="n">pinned</span> <span class="mi">230</span> <span class="mi">20</span> <span class="no">#t</span> <span class="p">(</span><span class="n">tree</span> <span class="mi">25</span> <span class="o">&#39;</span><span class="ss">orange</span><span class="p">))</span>
+      <span class="p">(</span><span class="n">pinned</span> <span class="mi">0</span> <span class="mi">50</span> <span class="no">#f</span> <span class="p">(</span><span class="n">cloud</span> <span class="mi">25</span> <span class="o">&#39;</span><span class="ss">white</span><span class="p">))</span>
+      <span class="p">(</span><span class="n">pinned</span> <span class="mi">60</span> <span class="mi">50</span> <span class="no">#f</span> <span class="p">(</span><span class="n">cloud</span> <span class="mi">40</span> <span class="o">&#39;</span><span class="ss">white</span><span class="p">))</span>
+      <span class="p">(</span><span class="n">pinned</span> <span class="mi">110</span> <span class="mi">50</span> <span class="no">#f</span> <span class="p">(</span><span class="n">cloud</span> <span class="mi">20</span> <span class="o">&#39;</span><span class="ss">white</span><span class="p">))</span>
+      <span class="p">(</span><span class="n">pinned</span> <span class="mi">170</span> <span class="mi">50</span> <span class="no">#t</span> <span class="p">(</span><span class="n">cloud</span> <span class="mi">30</span> <span class="o">&#39;</span><span class="ss">black</span><span class="p">))</span>
+      <span class="p">(</span><span class="n">pinned</span> <span class="mi">-100</span> <span class="mi">50</span> <span class="no">#f</span> <span class="p">(</span><span class="n">cloud</span> <span class="mi">35</span> <span class="o">&#39;</span><span class="ss">black</span><span class="p">))</span>
+      <span class="p">(</span><span class="n">pinned</span> <span class="mi">-140</span> <span class="mi">50</span> <span class="no">#t</span> <span class="p">(</span><span class="n">cloud</span> <span class="mi">30</span> <span class="o">&#39;</span><span class="ss">black</span><span class="p">))</span>
+      <span class="p">(</span><span class="n">square</span> <span class="mi">140</span> <span class="o">&#39;</span><span class="ss">solid</span> <span class="o">&#39;</span><span class="ss">skyblue</span><span class="p">))</span>
+     <span class="mi">70</span> <span class="mi">70</span>
+     <span class="p">(</span><span class="n">square</span> <span class="mi">140</span> <span class="mi">0</span> <span class="o">&#39;</span><span class="ss">black</span><span class="p">)))))</span>
+
+<span class="p">(</span><span class="k">provide</span> <span class="n">main</span><span class="p">)</span>
+<span class="p">(</span><span class="k">define</span> <span class="p">(</span><span class="n">main</span> <span class="o">.</span> <span class="n">args</span><span class="p">)</span>
+  <span class="p">(</span><span class="n">save-image</span>
+   <span class="p">(</span><span class="n">picture</span> <span class="mi">800</span><span class="p">)</span>
+   <span class="p">(</span><span class="nb">car</span> <span class="n">args</span><span class="p">)))</span>
+</pre></div>
+</td></tr></table>
+    <img src="2019-07-29-planet.png"></img>
+  </body>
+</html>

@@ -1,4 +1,5 @@
-_build/
-.shake/
+docs/*.lst
+docs/*.version
+docs/.shake*
 dist-newstyle/
 *.rkt~

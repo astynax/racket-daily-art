@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"></meta>
+    <link rel="stylesheet" href="pygments.css" type="text/css" media="screen"/>
+    <title>Astynax's Racket Art: 2018-09-30-sesame-halva.rkt</title>
+  </head>
+  <body>
+    <h3><a href="index.html">Index</a>&nbsp;/&nbsp;2018-09-30-sesame-halva.rkt</h3>
+    <table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38</pre></div></td><td class="code"><div class="highlight"><pre><span class="kn">#lang </span><span class="nn">racket</span>
+<span class="p">(</span><span class="k">require</span> <span class="n">2htdp/image</span><span class="p">)</span>
+
+<span class="p">(</span><span class="k">define</span> <span class="p">(</span><span class="n">-&gt;color</span> <span class="n">x</span><span class="p">)</span> <span class="p">(</span><span class="k">if</span> <span class="n">x</span> <span class="o">&#39;</span><span class="ss">OldLace</span> <span class="o">&#39;</span><span class="ss">Sienna</span><span class="p">))</span>
+<span class="p">(</span><span class="k">define</span> <span class="p">(</span><span class="n">next-color</span> <span class="n">x</span><span class="p">)</span> <span class="p">(</span><span class="nb">not</span> <span class="n">x</span><span class="p">))</span>
+
+<span class="p">(</span><span class="k">define</span> <span class="p">(</span><span class="n">step</span> <span class="n">i</span> <span class="n">c</span> <span class="n">s</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">let</span> <span class="p">([</span><span class="n">i1</span> <span class="p">(</span><span class="n">i</span> <span class="n">c</span> <span class="n">s</span><span class="p">)])</span>
+    <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="nb">&lt;</span> <span class="n">s</span> <span class="mi">30</span><span class="p">)</span> <span class="n">i1</span>
+      <span class="p">(</span><span class="k">let</span> <span class="p">([</span><span class="n">i2</span> <span class="p">(</span><span class="n">flip-vertical</span>
+                 <span class="p">(</span><span class="n">step</span> <span class="n">i</span> <span class="p">(</span><span class="n">next-color</span> <span class="n">c</span><span class="p">)</span> <span class="p">(</span><span class="nb">/</span> <span class="n">s</span> <span class="mi">2</span><span class="p">)))])</span>
+        <span class="p">(</span><span class="n">overlay/align</span>
+         <span class="o">&#39;</span><span class="ss">left</span> <span class="o">&#39;</span><span class="ss">bottom</span> <span class="n">i2</span>
+         <span class="p">(</span><span class="n">overlay/align</span>
+          <span class="o">&#39;</span><span class="ss">right</span> <span class="o">&#39;</span><span class="ss">top</span> <span class="n">i2</span>
+          <span class="n">i1</span><span class="p">))))))</span>
+
+<span class="p">(</span><span class="k">define</span> <span class="p">(</span><span class="n">item</span> <span class="n">c</span> <span class="n">s</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">let*</span> <span class="p">([</span><span class="n">fg</span> <span class="p">(</span><span class="n">-&gt;color</span> <span class="n">c</span><span class="p">)]</span>
+         <span class="p">[</span><span class="n">bg</span> <span class="p">(</span><span class="n">-&gt;color</span> <span class="p">(</span><span class="n">next-color</span> <span class="n">c</span><span class="p">))]</span>
+         <span class="p">[</span><span class="n">q</span> <span class="p">(</span><span class="nb">/</span> <span class="n">s</span> <span class="mi">8</span><span class="p">)]</span>
+         <span class="p">[</span><span class="n">c0</span> <span class="p">(</span><span class="n">circle</span> <span class="p">(</span><span class="nb">*</span> <span class="mi">2</span> <span class="n">q</span><span class="p">)</span>    <span class="mi">192</span> <span class="n">fg</span><span class="p">)]</span>
+         <span class="p">[</span><span class="n">c1</span> <span class="p">(</span><span class="n">circle</span>      <span class="n">q</span>      <span class="mi">64</span> <span class="n">fg</span><span class="p">)]</span>
+         <span class="p">[</span><span class="n">c2</span> <span class="p">(</span><span class="n">circle</span> <span class="p">(</span><span class="nb">*</span> <span class="mi">2</span> <span class="n">q</span><span class="p">)</span> <span class="o">&#39;</span><span class="ss">solid</span> <span class="n">bg</span><span class="p">)]</span>
+         <span class="p">[</span><span class="n">c3</span> <span class="p">(</span><span class="n">circle</span> <span class="p">(</span><span class="nb">*</span> <span class="mi">3</span> <span class="n">q</span><span class="p">)</span> <span class="o">&#39;</span><span class="ss">solid</span> <span class="n">fg</span><span class="p">)])</span>
+    <span class="p">(</span><span class="n">overlay</span>
+     <span class="n">c1</span> <span class="n">c2</span> <span class="n">c3</span>
+     <span class="p">(</span><span class="n">place-image</span>
+      <span class="n">c0</span> <span class="mi">0</span> <span class="mi">0</span>
+      <span class="p">(</span><span class="n">place-image</span>
+       <span class="n">c0</span> <span class="n">s</span> <span class="n">s</span>
+       <span class="p">(</span><span class="n">square</span> <span class="n">s</span> <span class="o">&#39;</span><span class="ss">solid</span> <span class="n">bg</span><span class="p">))))))</span>
+
+<span class="p">(</span><span class="k">provide</span> <span class="n">main</span><span class="p">)</span>
+<span class="p">(</span><span class="k">define</span> <span class="p">(</span><span class="n">main</span> <span class="o">.</span> <span class="n">args</span><span class="p">)</span>
+  <span class="p">(</span><span class="n">save-image</span>
+   <span class="p">(</span><span class="n">step</span> <span class="n">item</span> <span class="no">#f</span> <span class="mi">800</span><span class="p">)</span>
+   <span class="p">(</span><span class="nb">car</span> <span class="n">args</span><span class="p">)))</span>
+</pre></div>
+</td></tr></table>
+    <img src="2018-09-30-sesame-halva.png"></img>
+  </body>
+</html>

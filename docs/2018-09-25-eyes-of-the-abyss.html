@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"></meta>
+    <link rel="stylesheet" href="pygments.css" type="text/css" media="screen"/>
+    <title>Astynax's Racket Art: 2018-09-25-eyes-of-the-abyss.rkt</title>
+  </head>
+  <body>
+    <h3><a href="index.html">Index</a>&nbsp;/&nbsp;2018-09-25-eyes-of-the-abyss.rkt</h3>
+    <table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42</pre></div></td><td class="code"><div class="highlight"><pre><span class="kn">#lang </span><span class="nn">racket</span>
+<span class="p">(</span><span class="k">require</span> <span class="n">2htdp/image</span><span class="p">)</span>
+
+<span class="c1">; partial application: (($ + 1 2) 3 4) =&gt; 10</span>
+<span class="p">(</span><span class="k">define</span> <span class="p">(</span><span class="n">$</span> <span class="n">f</span> <span class="o">.</span> <span class="n">args</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="n">a</span> <span class="o">.</span> <span class="n">args2</span><span class="p">)</span>
+    <span class="p">(</span><span class="nb">apply</span> <span class="n">f</span> <span class="p">(</span><span class="nb">append</span> <span class="n">args</span> <span class="p">(</span><span class="nb">cons</span> <span class="n">a</span> <span class="n">args2</span><span class="p">)))))</span>
+
+<span class="c1">; basic item: () or &lt;&gt;</span>
+<span class="p">(</span><span class="k">define</span> <span class="p">(</span><span class="n">item</span> <span class="n">s</span> <span class="n">f</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">let*</span> <span class="p">([</span><span class="n">hs</span> <span class="p">(</span><span class="nb">/</span> <span class="n">s</span> <span class="mi">2</span><span class="p">)]</span>
+         <span class="p">[</span><span class="k">inner</span> <span class="p">(</span><span class="k">if</span> <span class="n">f</span> <span class="p">(</span><span class="n">$</span> <span class="n">circle</span> <span class="p">(</span><span class="nb">/</span> <span class="n">s</span> <span class="mi">4</span><span class="p">)</span> <span class="o">&#39;</span><span class="ss">solid</span><span class="p">)</span>
+                    <span class="p">(</span><span class="n">$</span> <span class="n">rhombus</span> <span class="p">(</span><span class="nb">*</span> <span class="mf">0.7</span> <span class="n">s</span><span class="p">)</span> <span class="mi">90</span> <span class="o">&#39;</span><span class="ss">solid</span><span class="p">))]</span>
+         <span class="p">[</span><span class="n">color</span> <span class="p">(</span><span class="k">if</span> <span class="n">f</span> <span class="o">&#39;</span><span class="ss">GreenYellow</span> <span class="o">&#39;</span><span class="ss">SlateGray</span><span class="p">)])</span>
+    <span class="p">(</span><span class="n">beside</span> <span class="p">(</span><span class="n">place-image</span> <span class="p">(</span><span class="k">inner</span> <span class="o">&#39;</span><span class="ss">black</span><span class="p">)</span>
+                         <span class="n">hs</span> <span class="n">hs</span>
+                         <span class="p">(</span><span class="n">rectangle</span> <span class="n">hs</span> <span class="n">s</span> <span class="o">&#39;</span><span class="ss">solid</span> <span class="o">&#39;</span><span class="ss">LightSteelBlue</span><span class="p">))</span>
+            <span class="p">(</span><span class="n">place-image</span> <span class="p">(</span><span class="k">inner</span> <span class="n">color</span><span class="p">)</span>
+                         <span class="mi">0</span> <span class="n">hs</span>
+                         <span class="p">(</span><span class="n">rectangle</span> <span class="n">hs</span> <span class="n">s</span> <span class="o">&#39;</span><span class="ss">solid</span> <span class="o">&#39;</span><span class="ss">black</span><span class="p">)))))</span>
+
+<span class="c1">; rotating combinator</span>
+<span class="p">(</span><span class="k">define</span> <span class="p">(</span><span class="n">four-rotate</span> <span class="n">i</span> <span class="n">f</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">let</span> <span class="p">([</span><span class="n">i1</span> <span class="p">(</span><span class="n">rotate</span> <span class="p">(</span><span class="k">if</span> <span class="n">f</span> <span class="mi">-90</span> <span class="mi">90</span><span class="p">)</span> <span class="p">(</span><span class="n">i</span> <span class="n">f</span><span class="p">))]</span>
+        <span class="p">[</span><span class="n">i2</span> <span class="p">(</span><span class="n">rotate</span> <span class="p">(</span><span class="k">if</span> <span class="n">f</span> <span class="mi">180</span> <span class="mi">0</span><span class="p">)</span>  <span class="p">(</span><span class="n">i</span> <span class="p">(</span><span class="nb">not</span> <span class="n">f</span><span class="p">)))]</span>
+        <span class="p">[</span><span class="n">i3</span> <span class="p">(</span><span class="n">rotate</span> <span class="p">(</span><span class="k">if</span> <span class="n">f</span> <span class="mi">90</span> <span class="mi">-90</span><span class="p">)</span> <span class="p">(</span><span class="n">i</span> <span class="n">f</span><span class="p">))]</span>
+        <span class="p">[</span><span class="n">i4</span> <span class="p">(</span><span class="n">rotate</span> <span class="p">(</span><span class="k">if</span> <span class="n">f</span> <span class="mi">0</span> <span class="mi">180</span><span class="p">)</span>  <span class="p">(</span><span class="n">i</span> <span class="p">(</span><span class="nb">not</span> <span class="n">f</span><span class="p">)))])</span>
+    <span class="p">(</span><span class="n">above</span> <span class="p">(</span><span class="n">beside</span> <span class="n">i1</span> <span class="n">i2</span><span class="p">)</span>
+           <span class="p">(</span><span class="n">beside</span> <span class="n">i4</span> <span class="n">i3</span><span class="p">))))</span>
+
+<span class="c1">; flipping combinator</span>
+<span class="p">(</span><span class="k">define</span> <span class="p">(</span><span class="n">four-flip</span> <span class="n">i</span> <span class="n">f</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">let</span> <span class="p">([</span><span class="n">i1</span> <span class="p">((</span><span class="k">if</span> <span class="n">f</span> <span class="nb">identity</span> <span class="n">flip-horizontal</span><span class="p">)</span> <span class="p">(</span><span class="n">i</span> <span class="n">f</span><span class="p">))]</span>
+        <span class="p">[</span><span class="n">i2</span> <span class="p">((</span><span class="k">if</span> <span class="n">f</span> <span class="n">flip-horizontal</span> <span class="nb">identity</span><span class="p">)</span> <span class="p">(</span><span class="n">i</span> <span class="n">f</span><span class="p">))])</span>
+    <span class="p">(</span><span class="n">above</span> <span class="p">(</span><span class="n">beside</span> <span class="n">i1</span> <span class="n">i2</span><span class="p">)</span>
+           <span class="p">(</span><span class="n">beside</span> <span class="n">i2</span> <span class="n">i1</span><span class="p">))))</span>
+
+<span class="p">(</span><span class="k">provide</span> <span class="n">main</span><span class="p">)</span>
+<span class="p">(</span><span class="k">define</span> <span class="p">(</span><span class="n">main</span> <span class="o">.</span> <span class="n">args</span><span class="p">)</span>
+  <span class="p">(</span><span class="n">save-image</span>
+   <span class="p">(</span><span class="n">four-flip</span> <span class="p">(</span><span class="n">$</span> <span class="n">four-rotate</span> <span class="p">(</span><span class="n">$</span> <span class="n">four-rotate</span> <span class="p">(</span><span class="n">$</span> <span class="n">item</span> <span class="mi">70</span><span class="p">)))</span> <span class="no">#f</span><span class="p">)</span>
+   <span class="p">(</span><span class="nb">car</span> <span class="n">args</span><span class="p">)))</span>
+</pre></div>
+</td></tr></table>
+    <img src="2018-09-25-eyes-of-the-abyss.png"></img>
+  </body>
+</html>

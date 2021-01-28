@@ -11,6 +11,12 @@ extra-source-files:  README.md
 
 executable build
   main-is:             Build.hs
+  ghc-options:         -Wall
+                       -Wcompat
+                       -Wincomplete-record-updates
+                       -Wincomplete-uni-patterns
+                       -Wredundant-constraints
+                       -Wmissing-exported-signatures
   build-depends:       base ^>=4.13.0.0
                      , shake
                      , directory
